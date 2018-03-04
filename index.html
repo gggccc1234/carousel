@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .stage{
+            position: relative;
+            width: 400px;
+            height: 200px;
+            margin: 200px auto;
+            transform-style: preserve-3d;
+            perspective: 800px;
+        }
+        ul{
+            padding: 0;
+            margin: 0;
+            list-style-type: none;
+            transition: all 0.5s linear;
+        }
+        .stage .three-d-box{
+            position: absolute;
+            top: 0%;
+            left: 0%;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d; 
+        }
+        .stage .three-d-box>li{
+            position:absolute;
+            top:0px;
+            left:0px;
+            width:400px;
+            height:200px;
+        }
+        .txt{
+            transform: translateZ(100px);
+            background: url("img/1.jpg");
+        }
+    </style>
+</head>
+<body>
+    <button onclick="animation(rand(2,3),rand(2,5))">切换</button>
+    <button onclick="animation(2,rand(2,5))">向左</button>
+    <button onclick="animation(3,rand(2,5))">向右</button>
+    <button onclick="animation(rand(2,3),2)">第一张图片</button>
+    <button onclick="animation(rand(2,3),3)">第二张图片</button>
+    <button onclick="animation(rand(2,3),4)">第三张图片</button>
+    <button onclick="animation(rand(2,3),5)">第四张图片</button>
+    <div class="stage">
+        <ul class="three-d-box" id="list">
+            <li class="first txt"></li>
+            <li class="second txt"></li>
+        </ul>
+    </div>
+    <script src="js/jquery-2.1.1.min.js"></script>
+    <script>
+        var sx=0;
+        var sy=0;
+        var isChange=true;
+        var fan=rand(2,3);
+        var pic=rand(2,5);
+        function rand(a,b){
+            return Math.round(Math.random()*(b-a))+a;
+        }
+        function animation(fan,pic){
+            if(!isChange){
+                return
+            }
+            $(".first").remove();
+            $(".second").addClass("first");
+            $(".first").removeClass("second");
+            var newLi=$("<li></li>");
+            newLi.addClass("second");
+            if(fan==2||fan==3){
+                $(".first").css({
+                    "transform": "rotateX("+sx+"deg) "+"rotateY("+sy+"deg) "+"translateZ(200px) scale(1.0)"
+                })
+            }
+            else{
+                $(".first").css({
+                    "transform": "rotateX("+sx+"deg) "+"rotateY("+sy+"deg) "+"translateZ(120px) scale(1.2)"
+                })
+            }
+            if(fan==2){
+                sy=sy-0+90;
+            }
+            if(fan==3){
+                sy=sy-90;
+            }
+            if(fan==4){
+                sx=sx-0+90;
+            }
+            if(fan==5){
+                sx=sx-90;
+            }
+            switch(fan){
+                case 2:newLi.css({
+                    "background-image":"url(\"img/"+pic+".jpg\")",
+                    "transform": "rotateX("+(sx-0)+"deg) "+"rotateY("+(sy-0)+"deg) "+"translateZ(200px)" +" scale(1.0)",
+                    });
+                    break;
+                case 3:newLi.css({
+                    "background-image":"url(\"img/"+pic+".jpg\")",
+                    "transform": "rotateX("+(sx-0)+"deg) "+"rotateY("+(sy-0)+"deg) "+"translateZ(200px)" +" scale(1.0)",
+                    });
+                    break;
+                case 4:newLi.css({
+                    "background-image":"url(\"img/"+pic+".jpg\")",
+                    "transform": "rotateX("+(sx-0)+"deg) "+"rotateY("+(sy-0)+"deg) "+"translateZ(120px)" +" scale(1.2)",
+                    });
+                    break;
+                case 5:newLi.css({
+                    "background-image":"url(\"img/"+pic+".jpg\")",
+                    "transform": "rotateX("+(sx-0)+"deg) "+"rotateY("+(sy-0)+"deg) "+"translateZ(120px)" +" scale(1.2)",
+                    });
+                    break;
+            }
+            $("#list").append(newLi);
+            switch(fan){
+                 case 2:$(".three-d-box").css({
+                     "transform": "rotateX("+(-sx)+"deg) rotateY("+(-sy)+"deg)",});
+                     break;
+                 case 3:$(".three-d-box").css({
+                     "transform": "rotateX("+(-sx)+"deg) rotateY("+(-sy)+"deg)",});
+                     break;
+                case 4:$(".three-d-box").css({
+                    "transform": "rotateX("+(-sx)+"deg) rotateY("+(-sy)+"deg)",});
+                    break;
+                 case 5:$(".three-d-box").css({
+                     "transform": "rotateX("+(-sx)+"deg) rotateY("+(-sy)+"deg)",});
+                     break;
+            }
+            setTimeout(()=>{
+                isChange=true
+            },500)
+        }
+    </script>
+</body>
+</html>
